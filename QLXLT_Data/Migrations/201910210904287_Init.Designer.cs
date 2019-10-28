@@ -13,7 +13,7 @@ namespace QLXLT_Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201910140938150_Init"; }
+            get { return "201910210904287_Init"; }
         }
         
         string IMigrationMetadata.Source

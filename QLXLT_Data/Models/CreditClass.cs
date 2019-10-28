@@ -13,6 +13,7 @@ namespace QLXLT_Data.Models
         public CreditClass()
         {
             Students = new HashSet<Student>();
+            CreditClassGroups = new HashSet<CreditClassGroup>();
         }
 
         [Key, Display(AutoGenerateField = false)]
@@ -31,6 +32,8 @@ namespace QLXLT_Data.Models
         public virtual Teacher Teacher { get; set; }
 
         [Display(AutoGenerateField = false)]
-        public virtual ICollection<Student> Students { set; get; }                                                          
+        public virtual ICollection<Student> Students { set; get; }
+        [Display(AutoGenerateField = false)]
+        public virtual ICollection<CreditClassGroup> CreditClassGroups { set; get; }
     } 
 }

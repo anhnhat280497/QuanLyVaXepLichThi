@@ -53,12 +53,13 @@
   <ItemGroup>
     <Compile Include="Data\DataSeeder.cs" />
     <Compile Include="Data\XLTContext.cs" />
-    <Compile Include="Migrations\201910140938150_Init.cs" />
-    <Compile Include="Migrations\201910140938150_Init.designer.cs">
-      <DependentUpon>201910140938150_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201910210904287_Init.cs" />
+    <Compile Include="Migrations\201910210904287_Init.designer.cs">
+      <DependentUpon>201910210904287_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CreditClass.cs" />
+    <Compile Include="Models\CreditClassGroup.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TestSchedule.cs" />
     <Compile Include="Models\Class.cs" />
@@ -74,8 +75,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910140938150_Init.resx">
-      <DependentUpon>201910140938150_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910210904287_Init.resx">
+      <DependentUpon>201910210904287_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

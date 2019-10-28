@@ -57,6 +57,17 @@
                 .Index(t => t.TeacherId);
             
             CreateTable(
+                "dbo.CreditClassGroups",
+                c => new
+                    {
+                        CreditClassGroupId = c.Int(nullable: false, identity: true),
+                        CreditClassId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.CreditClassGroupId)
+                .ForeignKey("dbo.CreditClasses", t => t.CreditClassId, cascadeDelete: true)
+                .Index(t => t.CreditClassId);
+            
+            CreateTable(
                 "dbo.Subjects",
                 c => new
                     {
@@ -87,6 +98,10 @@
                 c => new
                     {
                         TestScheduleId = c.Int(nullable: false, identity: true),
+                        Semester = c.Int(nullable: false),
+                        SchoolYear = c.String(),
+                        StartDay = c.DateTime(nullable: false),
+                        EndDay = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.TestScheduleId);
             
@@ -114,6 +129,19 @@
                 .Index(t => t.SubjectId)
                 .Index(t => t.RoomId)
                 .Index(t => t.TeacherId);
+            
+            CreateTable(
+                "dbo.CreditClassGroupStudents",
+                c => new
+                    {
+                        CreditClassGroup_CreditClassGroupId = c.Int(nullable: false),
+                        Student_PersonId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.CreditClassGroup_CreditClassGroupId, t.Student_PersonId })
+                .ForeignKey("dbo.CreditClassGroups", t => t.CreditClassGroup_CreditClassGroupId, cascadeDelete: false)
+                .ForeignKey("dbo.People", t => t.Student_PersonId, cascadeDelete: false)
+                .Index(t => t.CreditClassGroup_CreditClassGroupId)
+                .Index(t => t.Student_PersonId);
             
             CreateTable(
                 "dbo.CreditClassStudents",
@@ -144,9 +172,14 @@
             DropForeignKey("dbo.Classes", "Subject_SubjectId", "dbo.Subjects");
             DropForeignKey("dbo.CreditClassStudents", "Student_PersonId", "dbo.People");
             DropForeignKey("dbo.CreditClassStudents", "CreditClass_CreditClassId", "dbo.CreditClasses");
+            DropForeignKey("dbo.CreditClassGroupStudents", "Student_PersonId", "dbo.People");
+            DropForeignKey("dbo.CreditClassGroupStudents", "CreditClassGroup_CreditClassGroupId", "dbo.CreditClassGroups");
+            DropForeignKey("dbo.CreditClassGroups", "CreditClassId", "dbo.CreditClasses");
             DropForeignKey("dbo.People", "ClassId", "dbo.Classes");
             DropIndex("dbo.CreditClassStudents", new[] { "Student_PersonId" });
             DropIndex("dbo.CreditClassStudents", new[] { "CreditClass_CreditClassId" });
+            DropIndex("dbo.CreditClassGroupStudents", new[] { "Student_PersonId" });
+            DropIndex("dbo.CreditClassGroupStudents", new[] { "CreditClassGroup_CreditClassGroupId" });
             DropIndex("dbo.TestScheduleDetails", new[] { "TeacherId" });
             DropIndex("dbo.TestScheduleDetails", new[] { "RoomId" });
             DropIndex("dbo.TestScheduleDetails", new[] { "SubjectId" });
@@ -155,6 +188,7 @@
             DropIndex("dbo.Rooms", new[] { "Name" });
             DropIndex("dbo.Subjects", new[] { "Teacher_PersonId" });
             DropIndex("dbo.Subjects", new[] { "SubjectCode" });
+            DropIndex("dbo.CreditClassGroups", new[] { "CreditClassId" });
             DropIndex("dbo.CreditClasses", new[] { "TeacherId" });
             DropIndex("dbo.CreditClasses", new[] { "SubjectId" });
             DropIndex("dbo.People", new[] { "ClassId" });
@@ -163,10 +197,12 @@
             DropIndex("dbo.Classes", new[] { "Subject_SubjectId" });
             DropIndex("dbo.Classes", new[] { "ClassCode" });
             DropTable("dbo.CreditClassStudents");
+            DropTable("dbo.CreditClassGroupStudents");
             DropTable("dbo.TestScheduleDetails");
             DropTable("dbo.TestSchedules");
             DropTable("dbo.Rooms");
             DropTable("dbo.Subjects");
+            DropTable("dbo.CreditClassGroups");
             DropTable("dbo.CreditClasses");
             DropTable("dbo.People");
             DropTable("dbo.Classes");
